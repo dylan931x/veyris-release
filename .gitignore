@@ -1,0 +1,15 @@
+# No local state, personal data, cryptographic keys or build outputs.
+__pycache__/
+*.pyc
+*.bak
+*.backup.*
+update_data/
+release_dist/
+.env
+*.pem
+*.key
+*.p8
+*.p12
+*.pfx
+*.log
+*.tmp
