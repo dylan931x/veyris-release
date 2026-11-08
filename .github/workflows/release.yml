@@ -1,0 +1,34 @@
+name: Publish signed VEYRIS release
+on:
+  push:
+    tags:
+      - 'v*'
+permissions:
+  contents: write
+jobs:
+  release:
+    environment: signed-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout reviewed source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Python runtime
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install signing library
+        run: python -m pip install 'cryptography>=44,<51'
+      - name: Validate source syntax
+        run: |
+          python -m py_compile server.py brain.py
+          node --check app.js
+      - name: Sign release
+        env:
+          VEYRIS_SIGNING_KEY_B64: ${{ secrets.VEYRIS_SIGNING_KEY_B64 }}
+        run: python publisher/make_release.py
+      - name: Upload signed release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${{ github.ref_name }}" release_dist/veyris-release.zip release_dist/veyris-manifest.json release_dist/veyris-manifest.sig --verify-tag --generate-notes
