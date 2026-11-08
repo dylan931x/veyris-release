@@ -32,9 +32,13 @@ def main():
     if not match:
         raise RuntimeError("Application version missing")
     version = match.group(1)
-    ci_tag = os.environ.get("GITHUB_REF_NAME")
-    if ci_tag and ci_tag != f"v{version}":
-        raise RuntimeError("Git tag and version disagree")
+    # Manual workflow dispatch uses the main branch as GITHUB_REF_NAME.
+    # Validate the requested tag instead of treating that branch as the release tag.
+    ci_tag = os.environ.get("VEYRIS_RELEASE_TAG") or (
+        os.environ.get("GITHUB_REF_NAME") if os.environ.get("GITHUB_REF_TYPE") == "tag" else None
+    )
+    if ci_tag != f"v{version}":
+        raise RuntimeError("Requested release tag and application version disagree")
 
     buffer = io.BytesIO()
     hashes = {}
