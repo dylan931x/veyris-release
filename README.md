@@ -5,7 +5,7 @@ It was copied separately from the live installation to avoid publishing personal
 old backups, market data, Ollama models, logs, or local configuration.
 
 ## Status
-- GitHub repository: **not created yet**; requires the owner's GitHub connection.
+- GitHub repository: **created** at https://github.com/dylan931x/veyris-release.
 - Signing key: **not provisioned yet**.
 - Client release channel: **disabled** until repository and public key are trusted.
 - Local Windows application: still running independently.
@@ -22,8 +22,8 @@ Verified updates install only when VEYRIS is next launched, with backup and star
 The installer/verification modules are *never replaced* by downloaded release files.
 
 ## First-time setup after connecting GitHub
-1. Create a **public** repo containing only these reviewed files; the client
-   reads public GitHub Releases without a personal access token.
+1. This **public** repository has been created, and the reviewed files uploaded.
+   The client reads public GitHub Releases without a personal access token.
 2. Create GitHub Actions environment named "signed-release" with required review approval.
 3. On your own PC, run publisher/generate_keypair_once.py. Treat terminal output as a secret.
 4. Set VEYRIS_SIGNING_KEY_B64 as a GitHub Actions **environment secret** in
