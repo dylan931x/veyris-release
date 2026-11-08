@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="veyris-token" content="__SESSION_TOKEN__">
+  <title>VEYRIS // AI Desktop Companion v2.3</title>
+  <link rel="stylesheet" href="style.css?v=2.4.0">
+  <script src="app.js?v=2.4.0" defer></script>
+</head>
+<body>
+  <div class="ambient"></div>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="identity">
+        <div class="emblem">V<span>⌁</span></div>
+        <div><strong>VEYRIS</strong><small>DESKTOP INTELLIGENCE</small></div>
+      </div>
+      <p class="side-label">WORKSPACE</p>
+      <button class="nav active" data-nav="console"><span>⌘</span> Command center</button>
+      <button class="nav" data-nav="system"><span>◫</span> System telemetry</button>
+      <button class="nav" data-nav="security"><span>⬡</span> Security overview</button>
+      <button class="nav" data-nav="files"><span>▤</span> File intelligence</button>
+      <div class="sidebar-bottom">
+        <div class="connection"><span class="live-dot"></span> LOCAL NODE CONNECTED</div>
+        <p>ChatGPT + Remote Desktop Commander provides advanced AI workflows. This companion executes only approved local tasks.</p>
+        <button class="subtle" id="ask-ai-side">OPEN CHATGPT ↗</button>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="topline">
+        <div>VEYRIS / SYSTEM INTERFACE / <span id="nav-label">COMMAND CENTER</span></div>
+        <div id="clock">--:--:--</div>
+      </div>
+      <header class="hero">
+        <div>
+          <div class="eyebrow"><span class="live-dot"></span> OPERATIONAL / LOCAL SYSTEM</div>
+          <h1>Command the <em>machine.</em></h1>
+          <p>Talk naturally to a private local AI brain, inspect your PC, and launch approved trading tools. Built for your Windows desktop.</p>
+          <div class="hero-tags"><span>WINDOWS NODE <b id="hostname">—</b></span><span>VERSION 2.4</span><span>NO BROKER CONNECTION</span></div>
+        </div>
+        <div class="orb" aria-hidden="true"><div class="orb-mid"><div class="orb-core">V</div></div></div>
+      </header>
+      <section class="stats">
+        <div class="stat"><div class="stat-head">PROCESSOR <span>CPU</span></div><div class="stat-number"><b id="cpu">--</b><small>%</small></div><div class="track"><div id="cpu-bar"></div></div><div class="stat-caption" id="threads">Reading system...</div></div>
+        <div class="stat"><div class="stat-head">PHYSICAL MEMORY <span>RAM</span></div><div class="stat-number"><b id="ram">--</b><small>%</small></div><div class="track"><div id="ram-bar"></div></div><div class="stat-caption" id="ram-caption">—</div></div>
+        <div class="stat"><div class="stat-head">MAIN STORAGE <span>C:</span></div><div class="stat-number"><b id="disk">--</b><small>%</small></div><div class="track"><div id="disk-bar"></div></div><div class="stat-caption" id="disk-caption">—</div></div>
+        <div class="stat"><div class="stat-head">SYSTEM UPTIME <span>HOST</span></div><div class="stat-number"><b id="uptime">--</b><small>hr</small></div><div class="track"><div class="uptime-bar"></div></div><div class="stat-caption">Protected local connection</div></div>
+      </section>
+      <section class="workspace">
+        <div class="console panel" id="console-panel">
+          <div class="panel-head"><div><span class="indicator"></span><h2>VEYRIS / INTELLIGENCE TERMINAL</h2></div><div class="mode-select"><button class="selected" id="mode-ai">AI CHAT</button><button id="mode-command">LOCAL COMMANDS</button></div></div>
+          <div class="brain-status" id="brain-status" aria-live="polite">● CHECKING LOCAL AI MODEL...</div>
+          <div id="messages" class="messages" aria-live="polite">
+            <div class="bubble veyris"><span class="message-label">VEYRIS // AI CORE</span><p>Hello. I am VEYRIS, your local desktop AI. Ask me questions, get technical help, or brainstorm trading tools. Switch to LOCAL COMMANDS for approved PC actions.</p></div>
+          </div>
+          <form id="command-form" autocomplete="off">
+            <span class="prompt-sign">›</span>
+            <input id="command-input" type="text" placeholder="Talk to VEYRIS..." maxlength="6000" aria-label="VEYRIS command">
+            <button type="submit" class="send">EXECUTE ↗</button>
+          </form>
+          <div class="suggestions"><button data-command="What can you help me with?">WHAT CAN YOU DO?</button><button data-command="Explain fair value gaps on MNQ.">MNQ CHART HELP</button><button data-command="How can I improve my Windows PC performance?">OPTIMIZE WINDOWS</button><button data-command="How can I check for malware safely?">SECURITY ADVICE</button><button data-ai="false" data-command="system status">SYSTEM STATUS</button><button data-ai="false" data-command="check defender">CHECK DEFENDER</button><button data-ai="false" data-command="largest downloads">LARGEST DOWNLOADS</button><button data-ai="false" data-command="help">LOCAL HELP</button></div>
+        </div>
+        <div class="rail">
+          <section class="panel mini">
+            <div class="panel-head"><div><span class="indicator violet"></span><h2>SECURITY WATCH</h2></div></div>
+            <div id="security-summary" class="security-text">Tap CHECK NOW to inspect current Microsoft Defender protection settings.</div>
+            <button class="outline" id="security-button">CHECK NOW ↗</button>
+          </section>
+          <section class="panel mini" id="update-panel">
+            <div class="panel-head"><div><span class="indicator"></span><h2>UPGRADE CENTER</h2></div><span class="soft-label">WEEKLY CHECKS</span></div>
+            <div id="update-summary" class="security-text">Loading update health...</div>
+            <div class="update-controls">
+              <button class="outline" id="update-check">CHECK + BACKUP</button>
+              <button class="outline" id="update-sync">REFRESH AI MODELS</button>
+            </div>
+            <div id="release-summary" class="update-tip">Signed release channel: checking configuration...</div>
+            <div class="update-controls"><button class="outline" id="release-check">CHECK SIGNED RELEASES</button></div>
+            <div class="update-tip">Only publisher-signed updates can install on the next launch. No AI-generated code is installed silently.</div>
+          </section>
+          <section class="panel mini">
+            <div class="panel-head"><div><span class="indicator gold"></span><h2>QUICK LAUNCH</h2></div></div>
+            <div class="launch-grid">
+              <button data-action="tradingview">◈ <span>TradingView</span></button>
+              <button data-action="tradovate">⌁ <span>Tradovate</span></button>
+              <button data-action="dashboard">▤ <span>Trading HUD</span></button>
+              <button data-action="news">◉ <span>News Feed</span></button>
+              <button data-action="downloads">▧ <span>Downloads</span></button>
+              <button data-action="chatgpt">✧ <span>ChatGPT</span></button>
+            </div>
+          </section>
+          <section class="panel mini">
+            <div class="panel-head"><div><span class="indicator"></span><h2>FILE INTELLIGENCE</h2></div></div>
+            <div class="file-controls">
+              <select id="file-scope" aria-label="Folder scope"><option>Downloads</option><option>Documents</option><option>Desktop</option></select>
+              <button id="scan-files" class="outline">SCAN FILES</button>
+            </div>
+            <div id="file-result" class="file-result">Shows the 15 largest files in the selected folder and its subfolders.</div>
+          </section>
+        </div>
+      </section>
+      <footer><span>VEYRIS OS // V2.4 SIGNED RELEASE CHANNEL</span><span>LOCALHOST ONLY · NO ADMIN PRIVILEGES · NO AUTOMATIC DELETION</span></footer>
+    </main>
+  </div>
+</body>
+</html>
