@@ -4,11 +4,16 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Leave empty to verify the public key; enter v2.4.1 to publish that signed release"
+        required: false
+        type: string
 permissions:
   contents: write
 jobs:
   verify-signing-key:
-    if: github.event_name == 'workflow_dispatch'
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.release_tag == '' }}
     environment: signed-release
     runs-on: ubuntu-latest
     steps:
@@ -25,7 +30,7 @@ jobs:
           VEYRIS_SIGNING_KEY_B64: ${{ secrets.VEYRIS_SIGNING_KEY_B64 }}
         run: python publisher/show_public_key.py
   release:
-    if: github.event_name == 'push'
+    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.release_tag != '') }}
     environment: signed-release
     runs-on: ubuntu-latest
     steps:
@@ -43,11 +48,27 @@ jobs:
         run: |
           python -m py_compile server.py brain.py
           node --check app.js
+      - name: Validate release tag
+        env:
+          RELEASE_TAG: ${{ github.event_name == 'push' && github.ref_name || inputs.release_tag }}
+        run: |
+          python - <<'PY'
+          import os, re
+          if not re.fullmatch(r"v[0-9]+\.[0-9]+\.[0-9]+", os.environ.get("RELEASE_TAG", "")):
+              raise SystemExit("Release tag must be vMAJOR.MINOR.PATCH")
+          PY
       - name: Sign release
         env:
           VEYRIS_SIGNING_KEY_B64: ${{ secrets.VEYRIS_SIGNING_KEY_B64 }}
+          VEYRIS_RELEASE_TAG: ${{ github.event_name == 'push' && github.ref_name || inputs.release_tag }}
         run: python publisher/make_release.py
       - name: Upload signed release assets
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "${{ github.ref_name }}" release_dist/veyris-release.zip release_dist/veyris-manifest.json release_dist/veyris-manifest.sig --verify-tag --generate-notes
+          RELEASE_TAG: ${{ github.event_name == 'push' && github.ref_name || inputs.release_tag }}
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+            gh release create "$RELEASE_TAG" release_dist/veyris-release.zip release_dist/veyris-manifest.json release_dist/veyris-manifest.sig --verify-tag --generate-notes
+          else
+            gh release create "$RELEASE_TAG" release_dist/veyris-release.zip release_dist/veyris-manifest.json release_dist/veyris-manifest.sig --target "$GITHUB_SHA" --generate-notes
+          fi
