@@ -22,7 +22,7 @@ import brain
 import updater
 import release_updater
 
-VERSION = "2.4.0"
+VERSION = "2.4.1"
 HOST, PORT = "127.0.0.1", 8767
 ROOT = Path(__file__).resolve().parent
 HOME = Path.home()
